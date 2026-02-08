@@ -1,386 +1,401 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>For You ❤️</title>
-  <style>
-    :root{
-      --bg1:#0b0b10;
-      --bg2:#140f1c;
-      --cardW: 190px;
-      --cardH: 240px;
-      --radius: 18px;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>For You ❤️</title>
+    <style>
+        :root {
+            --bg1: #0b0b10;
+            --bg2: #140f1c;
+            --cardW: 190px;
+            --cardH: 240px;
+            --radius: 18px;
+        }
 
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      min-height:100vh;
-      color:#f5f5f7;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      background: radial-gradient(1200px 600px at 20% 10%, #2a1640 0%, transparent 60%),
-                  radial-gradient(1000px 600px at 80% 20%, #1b2a6b 0%, transparent 55%),
-                  linear-gradient(180deg, var(--bg1), var(--bg2));
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding: 28px 18px;
-    }
+        * {
+            box-sizing: border-box;
+        }
 
-    .wrap{
-      width:min(1100px, 100%);
-    }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: #f5f5f7;
+            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+            background: radial-gradient(1200px 600px at 20% 10%, #2a1640 0%, transparent 60%),
+                radial-gradient(1000px 600px at 80% 20%, #1b2a6b 0%, transparent 55%),
+                linear-gradient(180deg, var(--bg1), var(--bg2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 28px 18px;
+        }
 
-    header{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      margin-bottom:18px;
-    }
+        .wrap {
+            width: min(1100px, 100%);
+        }
 
-    h1{
-      margin:0;
-      font-size: clamp(20px, 3vw, 34px);
-      letter-spacing: 0.2px;
-    }
+        header {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
 
-    .sub{
-      opacity:.85;
-      margin:0;
-      font-size: 14px;
-    }
+        h1 {
+            margin: 0;
+            font-size: clamp(20px, 3vw, 34px);
+            letter-spacing: 0.2px;
+        }
 
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(var(--cardW), 1fr));
-      gap: 18px;
-      align-items:stretch;
-    }
+        .sub {
+            opacity: .85;
+            margin: 0;
+            font-size: 14px;
+        }
 
-    /* Polaroid shell */
-    .polaroid{
-      width: 100%;
-      max-width: var(--cardW);
-      height: var(--cardH);
-      margin: 0 auto;
-      perspective: 1200px;
-      cursor: pointer;
-      user-select:none;
-      position:relative;
-    }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(var(--cardW), 1fr));
+            gap: 18px;
+            align-items: stretch;
+        }
 
-    /* Flip container */
-    .flip{
-      width:100%;
-      height:100%;
-      position:relative;
-      transform-style:preserve-3d;
-      transition: transform 700ms cubic-bezier(.2,.8,.2,1);
-    }
+        /* Polaroid shell */
+        .polaroid {
+            width: 100%;
+            max-width: var(--cardW);
+            height: var(--cardH);
+            margin: 0 auto;
+            perspective: 1200px;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+        }
 
-    .polaroid.is-flipped .flip{
-      transform: rotateY(180deg);
-    }
+        /* Flip container */
+        .flip {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 700ms cubic-bezier(.2, .8, .2, 1);
+        }
 
-    .face{
-      position:absolute;
-      inset:0;
-      border-radius: var(--radius);
-      backface-visibility:hidden;
-      overflow:hidden;
-      box-shadow: 0 18px 40px rgba(0,0,0,.35);
-      background: #f8f8fb;
-      color:#1a1a1a;
-      border: 1px solid rgba(255,255,255,.18);
-    }
+        .polaroid.is-flipped .flip {
+            transform: rotateY(180deg);
+        }
 
-    /* Front: photo like a polaroid */
-    .front{
-      display:flex;
-      flex-direction:column;
-      padding: 12px 12px 14px 12px;
-      gap: 10px;
-    }
+        .face {
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius);
+            backface-visibility: hidden;
+            overflow: hidden;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, .35);
+            background: #f8f8fb;
+            color: #1a1a1a;
+            border: 1px solid rgba(255, 255, 255, .18);
+        }
 
-    .photo{
-      flex: 1;
-      border-radius: 12px;
-      overflow:hidden;
-      position:relative;
-      background:#ddd;
-    }
-    .photo img{
-      width:100%;
-      height:100%;
-      object-fit: cover;
-      display:block;
-      filter: contrast(1.03) saturate(1.05);
-    }
+        /* Front: photo like a polaroid */
+        .front {
+            display: flex;
+            flex-direction: column;
+            padding: 12px 12px 14px 12px;
+            gap: 10px;
+        }
 
-    .caption{
-      font-size: 13px;
-      line-height:1.2;
-      color:#222;
-      opacity:.9;
-      padding: 0 2px;
-      font-weight: 600;
-      letter-spacing:.15px;
-    }
+        .photo {
+            flex: 1;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            background: #ddd;
+        }
 
-    /* Add a tiny tape effect */
-    .tape{
-      position:absolute;
-      top: -8px;
-      left: 50%;
-      transform: translateX(-50%) rotate(-3deg);
-      width: 64px;
-      height: 20px;
-      background: rgba(255, 235, 140, .65);
-      border: 1px solid rgba(0,0,0,.08);
-      border-radius: 6px;
-      filter: blur(.1px);
-      z-index: 4;
-    }
+        .photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: contrast(1.03) saturate(1.05);
+        }
 
-    /* Back: note */
-    .back{
-      transform: rotateY(180deg);
-      padding: 18px;
-      display:flex;
-      flex-direction:column;
-      gap: 12px;
-      background:
-        radial-gradient(600px 200px at 50% 0%, rgba(255, 120, 220, .20), transparent 60%),
-        linear-gradient(180deg, #ffffff, #f4f2ff);
-    }
+        .caption {
+            font-size: 13px;
+            line-height: 1.2;
+            color: #222;
+            opacity: .9;
+            padding: 0 2px;
+            font-weight: 600;
+            letter-spacing: .15px;
+        }
 
-    .back .note{
-      margin:0;
-      font-size: 14px;
-      line-height: 1.35;
-      color:#1f1f1f;
-      font-weight: 650;
-    }
+        /* Add a tiny tape effect */
+        .tape {
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-3deg);
+            width: 64px;
+            height: 20px;
+            background: rgba(255, 235, 140, .65);
+            border: 1px solid rgba(0, 0, 0, .08);
+            border-radius: 6px;
+            filter: blur(.1px);
+            z-index: 4;
+        }
 
-    .back .tiny{
-      margin:0;
-      font-size: 12px;
-      opacity:.75;
-      color:#2a2a2a;
-      margin-top:auto;
-    }
+        /* Back: note */
+        .back {
+            transform: rotateY(180deg);
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background:
+                radial-gradient(600px 200px at 50% 0%, rgba(255, 120, 220, .20), transparent 60%),
+                linear-gradient(180deg, #ffffff, #f4f2ff);
+        }
 
-    /* Final question card */
-    .question{
-      background:
-        radial-gradient(900px 300px at 50% 0%, rgba(255, 80, 140, .25), transparent 60%),
-        linear-gradient(180deg, #ffffff, #ffe9f3);
-    }
+        .back .note {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.35;
+            color: #1f1f1f;
+            font-weight: 650;
+        }
 
-    .question h2{
-      margin: 2px 0 0 0;
-      font-size: 18px;
-      color:#1b1b1b;
-    }
-    .question p{
-      margin: 0;
-      color:#333;
-      font-size: 13px;
-      opacity:.9;
-      line-height: 1.35;
-    }
+        .back .tiny {
+            margin: 0;
+            font-size: 12px;
+            opacity: .75;
+            color: #2a2a2a;
+            margin-top: auto;
+        }
 
-    .btnrow{
-      display:flex;
-      gap:10px;
-      margin-top: 12px;
-    }
-    button{
-      border:0;
-      border-radius: 999px;
-      padding: 10px 14px;
-      font-weight: 750;
-      cursor:pointer;
-      font-size: 13px;
-    }
-    .yes{
-      background: #ff2f7a;
-      color:white;
-      box-shadow: 0 10px 22px rgba(255, 47, 122, .25);
-    }
-    .no{
-      background: rgba(0,0,0,.08);
-      color:#111;
-    }
+        /* Final question card */
+        .question {
+            background:
+                radial-gradient(900px 300px at 50% 0%, rgba(255, 80, 140, .25), transparent 60%),
+                linear-gradient(180deg, #ffffff, #ffe9f3);
+        }
 
-    /* Cute toast */
-    .toast{
-      position: fixed;
-      left: 50%;
-      bottom: 18px;
-      transform: translateX(-50%);
-      background: rgba(20, 20, 25, .92);
-      color:#fff;
-      padding: 10px 14px;
-      border-radius: 12px;
-      font-size: 13px;
-      opacity:0;
-      pointer-events:none;
-      transition: opacity 250ms ease, transform 250ms ease;
-      box-shadow: 0 18px 50px rgba(0,0,0,.35);
-    }
-    .toast.show{
-      opacity:1;
-      transform: translateX(-50%) translateY(-6px);
-    }
+        .question h2 {
+            margin: 2px 0 0 0;
+            font-size: 18px;
+            color: #1b1b1b;
+        }
 
-    /* Mobile sizing */
-    @media (max-width: 430px){
-      :root{
-        --cardW: 160px;
-        --cardH: 215px;
-      }
-      .caption{ font-size: 12px; }
-    }
-  </style>
+        .question p {
+            margin: 0;
+            color: #333;
+            font-size: 13px;
+            opacity: .9;
+            line-height: 1.35;
+        }
+
+        .btnrow {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        button {
+            border: 0;
+            border-radius: 999px;
+            padding: 10px 14px;
+            font-weight: 750;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .yes {
+            background: #ff2f7a;
+            color: white;
+            box-shadow: 0 10px 22px rgba(255, 47, 122, .25);
+        }
+
+        .no {
+            background: rgba(0, 0, 0, .08);
+            color: #111;
+        }
+
+        /* Cute toast */
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 18px;
+            transform: translateX(-50%);
+            background: rgba(20, 20, 25, .92);
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 13px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 250ms ease, transform 250ms ease;
+            box-shadow: 0 18px 50px rgba(0, 0, 0, .35);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-6px);
+        }
+
+        /* Mobile sizing */
+        @media (max-width: 430px) {
+            :root {
+                --cardW: 160px;
+                --cardH: 215px;
+            }
+
+            .caption {
+                font-size: 12px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <header>
-      <h1>Little wall of us 🫶</h1>
-      <p class="sub">Tap any polaroid to flip it.</p>
-    </header>
+    <div class="wrap">
+        <header>
+            <h1>Little wall of us 🫶</h1>
+            <p class="sub">Tap any polaroid to flip it.</p>
+        </header>
 
-    <section class="grid" id="grid">
-      <!-- Example cards (duplicate/edit as needed) -->
-      <article class="polaroid" data-type="memory">
-        <div class="flip">
-          <div class="face front">
-            <div class="tape"></div>
-            <div class="photo"><img src="Personal/PhotoWall/tibiri3.jpeg" alt="Memory 1"></div>
-            <div class="caption">Esta es mi foto favorita de nuestro 2do date en tíbiri</div>
-          </div>
-          <div class="face back">
-            <p class="note">Hasta el bartender se reía de lo competitivos que éramos en Uno</p>
-            <p class="tiny">tap to flip back</p>
-          </div>
-        </div>
-      </article>
+        <section class="grid" id="grid">
+            <!-- Example cards (duplicate/edit as needed) -->
+            <article class="polaroid" data-type="memory">
+                <div class="flip">
+                    <div class="face front">
+                        <div class="tape"></div>
+                        <div class="photo"><img src="tibiri3.jpeg" alt="Memory 1"></div>
+                        <div class="caption">Esta es mi foto favorita de nuestro 2do date en tíbiri</div>
+                    </div>
+                    <div class="face back">
+                        <p class="note">Hasta el bartender se reía de lo competitivos que éramos en Uno</p>
+                        <p class="tiny">tap to flip back</p>
+                    </div>
+                </div>
+            </article>
 
-      <article class="polaroid" data-type="memory">
-        <div class="flip">
-          <div class="face front">
-            <div class="tape"></div>
-            <div class="photo"><img src="Personal/PhotoWall/pachanga.jpeg" alt="Memory 2"></div>
-            <div class="caption">Esta foto fue de cuando cogiste mi celular en la pachanga</div>
-          </div>
-          <div class="face back">
-            <p class="note">Cada vez que veo esta foto me muero de la ternura</p>
-            <p class="tiny">tap to flip back</p>
-          </div>
-        </div>
-      </article>
+            <article class="polaroid" data-type="memory">
+                <div class="flip">
+                    <div class="face front">
+                        <div class="tape"></div>
+                        <div class="photo"><img src="pachanga.jpeg" alt="Memory 2"></div>
+                        <div class="caption">Esta foto fue de cuando cogiste mi celular en la pachanga</div>
+                    </div>
+                    <div class="face back">
+                        <p class="note">Cada vez que veo esta foto me muero de la ternura</p>
+                        <p class="tiny">tap to flip back</p>
+                    </div>
+                </div>
+            </article>
 
-      <article class="polaroid" data-type="memory">
-        <div class="flip">
-          <div class="face front">
-            <div class="tape"></div>
-            <div class="photo"><img src="photos/03.jpg" alt="Memory 3"></div>
-            <div class="caption">Una de mis primeras fotos como tu fotógrafo personal</div>
-          </div>
-          <div class="face back">
-            <p class="note">Saliamos del concierto del conservatorio</p>
-            <p class="tiny">tap to flip back</p>
-          </div>
-        </div>
-      </article>
+            <article class="polaroid" data-type="memory">
+                <div class="flip">
+                    <div class="face front">
+                        <div class="tape"></div>
+                        <div class="photo"><img src="sinfonica.jpeg" alt="Memory 3"></div>
+                        <div class="caption">Una de mis primeras fotos como tu fotógrafo personal</div>
+                    </div>
+                    <div class="face back">
+                        <p class="note">Saliamos del concierto del conservatorio</p>
+                        <p class="tiny">tap to flip back</p>
+                    </div>
+                </div>
+            </article>
 
-      <article class="polaroid" data-type="memory">
-        <div class="flip">
-          <div class="face front">
-            <div class="tape"></div>
-            <div class="photo"><img src="Personal/PhotoWall/beach1.jpeg" alt="Memory 4"></div>
-            <div class="caption">Foto de nuestro primer date del año</div>
-          </div>
-          <div class="face back">
-            <p class="note">Me encantó el hike que hicimos para llegar a la cima</p>
-            <p class="tiny">tap to flip back</p>
-          </div>
-        </div>
-      </article>
+            <article class="polaroid" data-type="memory">
+                <div class="flip">
+                    <div class="face front">
+                        <div class="tape"></div>
+                        <div class="photo"><img src="beach1.jpeg" alt="Memory 4"></div>
+                        <div class="caption">Foto de nuestro primer date del año</div>
+                    </div>
+                    <div class="face back">
+                        <p class="note">Me encantó el hike que hicimos para llegar a la cima</p>
+                        <p class="tiny">tap to flip back</p>
+                    </div>
+                </div>
+            </article>
 
-      <article class="polaroid" data-type="memory">
-        <div class="flip">
-          <div class="face front">
-            <div class="tape"></div>
-            <div class="photo"><img src="Personal/PhotoWall/beach3.jpeg" alt="Memory 5"></div>
-            <div class="caption">No puede faltar uno de nuestros besos</div>
-          </div>
-          <div class="face back">
-            <p class="note">Que con cada beso que te doy me quedo con ganas de seguir sumergido en ellos</p>
-            <p class="tiny">tap to flip back</p>
-          </div>
-        </div>
-      </article>
+            <article class="polaroid" data-type="memory">
+                <div class="flip">
+                    <div class="face front">
+                        <div class="tape"></div>
+                        <div class="photo"><img src="beach3.jpeg" alt="Memory 5"></div>
+                        <div class="caption">No puede faltar uno de nuestros besos</div>
+                    </div>
+                    <div class="face back">
+                        <p class="note">Que con cada beso que te doy me quedo con ganas de seguir sumergido en ellos</p>
+                        <p class="tiny">tap to flip back</p>
+                    </div>
+                </div>
+            </article>
 
-      <!-- Final question card -->
-      <article class="polaroid" data-type="question" id="finalCard">
-        <div class="flip">
-          <div class="face front">
-            <div class="tape"></div>
-            <div class="photo">
-              <img src="Personal/PhotoWall/DavenBuster.jpeg" alt="Final">
-            </div>
-            <div class="caption">Esto me lleva a preguntarte...</div>
-          </div>
-          <div class="face back question">
-            <h2>Will you be my Valentine? 💘</h2>
-            <p>I already know my answer—it's you.</p>
-            <div class="btnrow">
-              <button class="yes" id="yesBtn">Yes</button>
-              <button class="no" id="noBtn">No</button>
-            </div>
-            <p class="tiny">tap the card to flip back</p>
-          </div>
-        </div>
-      </article>
-    </section>
-  </div>
+            <!-- Final question card -->
+            <article class="polaroid" data-type="question" id="finalCard">
+                <div class="flip">
+                    <div class="face front">
+                        <div class="tape"></div>
+                        <div class="photo">
+                            <img src="DavenBuster.jpeg" alt="Final">
+                        </div>
+                        <div class="caption">Esto me lleva a preguntarte...</div>
+                    </div>
+                    <div class="face back question">
+                        <h2>Will you be my Valentine? 💘</h2>
+                        <p>I already know my answer—it's you.</p>
+                        <div class="btnrow">
+                            <button class="yes" id="yesBtn">Yes</button>
+                            <button class="no" id="noBtn">No</button>
+                        </div>
+                        <p class="tiny">tap the card to flip back</p>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </div>
 
-  <div class="toast" id="toast"></div>
+    <div class="toast" id="toast"></div>
 
-  <script>
-    // Flip on click (each card toggles)
-    document.querySelectorAll(".polaroid").forEach(card => {
-      card.addEventListener("click", (e) => {
-        // If user clicked a button, don’t flip the card because of bubbling
-        if (e.target.tagName.toLowerCase() === "button") return;
-        card.classList.toggle("is-flipped");
-      });
-    });
+    <script>
+        // Flip on click (each card toggles)
+        document.querySelectorAll(".polaroid").forEach(card => {
+            card.addEventListener("click", (e) => {
+                // If user clicked a button, don’t flip the card because of bubbling
+                if (e.target.tagName.toLowerCase() === "button") return;
+                card.classList.toggle("is-flipped");
+            });
+        });
 
-    const toast = document.getElementById("toast");
-    function showToast(text){
-      toast.textContent = text;
-      toast.classList.add("show");
-      clearTimeout(showToast._t);
-      showToast._t = setTimeout(() => toast.classList.remove("show"), 2200);
-    }
+        const toast = document.getElementById("toast");
+        function showToast(text) {
+            toast.textContent = text;
+            toast.classList.add("show");
+            clearTimeout(showToast._t);
+            showToast._t = setTimeout(() => toast.classList.remove("show"), 2200);
+        }
 
-    // Button behavior
-    document.getElementById("yesBtn").addEventListener("click", () => {
-      showToast("YAY 😭💞 okay now come here");
-      // Optional: confetti-like vibe without libraries (quick shimmer)
-      document.body.animate(
-        [{ filter: "brightness(1)" }, { filter: "brightness(1.15)" }, { filter: "brightness(1)" }],
-        { duration: 700 }
-      );
-    });
+        // Button behavior
+        document.getElementById("yesBtn").addEventListener("click", () => {
+            showToast("YAY 😭💞 i knew you would say yes");
+            // Optional: confetti-like vibe without libraries (quick shimmer)
+            document.body.animate(
+                [{ filter: "brightness(1)" }, { filter: "brightness(1.15)" }, { filter: "brightness(1)" }],
+                { duration: 700 }
+            );
+        });
 
-    document.getElementById("noBtn").addEventListener("click", () => {
-      showToast("Nice try 😌 press Yes");
-    });
-  </script>
+        document.getElementById("noBtn").addEventListener("click", () => {
+            showToast("Nice try 😌 press Yes");
+        });
+    </script>
 </body>
+
 </html>
